@@ -1,110 +1,144 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-
+import { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
+import {
+  Text,
+  Surface,
+  IconButton,
+  MD3Colors,
+  TextInput,
+} from "react-native-paper";
 export default function TabTwoScreen() {
+  const [weight, setWeight] = useState<number>(0);
+  const [reps, setReps] = useState<number>(0);
+  const [exercise, setExercise] = useState<string>("");
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={100}
+        style={styles.container}
+      >
+        <Surface style={styles.gymCal}>
+          <TextInput
+            label="Name"
+            value={exercise}
+            onChangeText={(text) => setExercise(text)}
+            style={styles.textInput}
+          />
+          <View style={styles.counterContainer}>
+            <View style={styles.displayText}>
+              <Text variant="labelMedium">{weight} Kgs</Text>
+            </View>
+
+            <View style={styles.buttonColumn}>
+              <View style={styles.buttonWithLabel}>
+                {" "}
+                <IconButton
+                  icon="plus-circle"
+                  iconColor={MD3Colors.neutralVariant50}
+                  size={20}
+                  onPress={() => setWeight((a) => a + 5)}
+                />
+                <Text variant="labelMedium">5Kgs</Text>
+              </View>
+              <View style={styles.buttonWithLabel}>
+                {" "}
+                <IconButton
+                  icon="minus-circle"
+                  iconColor={MD3Colors.neutralVariant50}
+                  size={20}
+                  onPress={() => setWeight((a) => (a - 5 > 0 ? a - 5 : 0))}
+                />
+                <Text variant="labelMedium">5Kgs</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.counterContainer}>
+            <View style={styles.displayText}>
+              <Text variant="labelMedium">{reps} reps</Text>
+            </View>
+
+            <View style={styles.buttonColumn}>
+              <View style={styles.buttonWithLabel}>
+                {" "}
+                <IconButton
+                  icon="plus-circle"
+                  iconColor={MD3Colors.neutralVariant50}
+                  size={20}
+                  onPress={() => setReps((a) => a + 1)}
+                />
+                <Text variant="labelMedium">1rep</Text>
+              </View>
+              <View style={styles.buttonWithLabel}>
+                {" "}
+                <IconButton
+                  icon="minus-circle"
+                  iconColor={MD3Colors.neutralVariant50}
+                  size={20}
+                  onPress={() => setReps((a) => (a - 1 > 0 ? a - 1 : 0))}
+                />
+                <Text variant="labelMedium">1rep</Text>
+              </View>
+            </View>
+          </View>
+        </Surface>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
-
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    position: "relative",
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  counterContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "50%",
+    height: 100,
+  },
+  displayText: {
+    width: "50%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonColumn: {
+    display: "flex",
+    flexDirection: "column",
+    width: "50%",
+    borderLeftWidth: 2,
+    borderLeftColor: MD3Colors.neutral99,
+  },
+  buttonWithLabel: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  gymCal: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    position: "absolute",
+    bottom: 85,
+  },
+  textInput: {
+    width: "100%",
   },
 });
