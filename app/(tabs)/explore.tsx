@@ -39,7 +39,6 @@ export default function TabTwoScreen() {
 
             <View style={styles.buttonColumn}>
               <View style={styles.buttonWithLabel}>
-                {" "}
                 <IconButton
                   icon="plus-circle"
                   iconColor={MD3Colors.neutralVariant50}
@@ -49,7 +48,6 @@ export default function TabTwoScreen() {
                 <Text variant="labelMedium">5Kgs</Text>
               </View>
               <View style={styles.buttonWithLabel}>
-                {" "}
                 <IconButton
                   icon="minus-circle"
                   iconColor={MD3Colors.neutralVariant50}
@@ -67,7 +65,6 @@ export default function TabTwoScreen() {
 
             <View style={styles.buttonColumn}>
               <View style={styles.buttonWithLabel}>
-                {" "}
                 <IconButton
                   icon="plus-circle"
                   iconColor={MD3Colors.neutralVariant50}
@@ -77,7 +74,6 @@ export default function TabTwoScreen() {
                 <Text variant="labelMedium">1rep</Text>
               </View>
               <View style={styles.buttonWithLabel}>
-                {" "}
                 <IconButton
                   icon="minus-circle"
                   iconColor={MD3Colors.neutralVariant50}

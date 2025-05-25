@@ -1,46 +1,15 @@
-import { Button, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text } from "react-native";
-import { useEffect, useState } from "react";
-import Voice from "@react-native-voice/voice";
+import { useLocalSearchParams } from "expo-router";
 
 export default function HomeScreen() {
-  const [result, setResult] = useState("");
-  const [started, setStarted] = useState<boolean | undefined>(undefined);
+  const { text } = useLocalSearchParams();
 
-  useEffect(() => {
-    Voice.onSpeechResults = (e) => {
-      if (e.value) {
-        setResult(e.value[0]);
-      }
-    };
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-      setStarted(false);
-    };
-  }, []);
-
-  const startListening = async () => {
-    try {
-      setStarted(started === undefined ? true : !started);
-      await Voice.start("en-US");
-    } catch (e) {
-      console.error(e);
-    }
-  };
   return (
     <View style={styles.homeContainer}>
-      <Button
-        title={started ? "STOP " : "Start speaking "}
-        onPress={
-          !started
-            ? startListening
-            : () => {
-                Voice.stop();
-                setStarted(!started);
-              }
-        }
-      />
-      <Text>{result}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.textStyle}>{text}</Text>
+      </View>
     </View>
   );
 }
@@ -54,6 +23,23 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    position: "relative",
+  },
+  textContainer: {
+    position: "absolute",
+    padding: 20,
+    margin: 10,
+    bottom: 100,
+    zIndex: 999,
+  },
+  textStyle: {
+    color: "white",
+  },
+  textLight: {
+    color: "black",
+  },
+  textDark: {
+    color: "white",
   },
   titleContainer: {
     flexDirection: "row",
