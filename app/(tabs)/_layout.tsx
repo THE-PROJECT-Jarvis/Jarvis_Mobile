@@ -1,40 +1,80 @@
-import { Tabs, useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import Voice from "@react-native-voice/voice";
+import { Tabs, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-paper";
 import { io } from "socket.io-client";
 
-export const socket = io("http://172.20.10.2:3001", {
+export const socket = io("https://jarvisbackend-production.up.railway.app", {
   transports: ["websocket"], // important for mobile
 });
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const [result, setResult] = useState("");
   const [started, setStarted] = useState<boolean | undefined>(undefined);
+
+  let timer: any;
+  const askGptApi = (voiceText: string) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      console.log("result : ", voiceText);
+      router.push({
+        pathname: "/",
+        params: { text: voiceText },
+      });
+      socket.emit("/askGpt", voiceText);
+    }, 1000);
+    console.log("timer : ", timer);
+  };
 
   useEffect(() => {
     Voice.onSpeechResults = (e) => {
       if (e.value && e.value[0]) {
         const spokenText = e.value[0];
-        setResult(spokenText);
-        router.push({
-          pathname: "/",
-          params: { text: spokenText },
-        });
+        console.log("spoken token : ", spokenText);
+        askGptApi(spokenText);
       }
     };
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
-      console.log("Voice To Text : ", result);
-      socket.emit("askGpt", result);
       setStarted(false);
     };
   }, []);
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Socket connected : ", socket.id);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected.");
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("/gptResponse", (reply) => {
+      console.log("GPT Response:", reply);
+      router.push({
+        pathname: "/",
+        params: { text: reply },
+      });
+    });
+    return () => {
+      socket.off("/gptResponse");
+    };
+  }, []);
+  // useEffect(() => {
+  //   console.log("resutl : ", result);
+  // }, [result]);
 
   const startListening = async () => {
     try {
@@ -49,7 +89,7 @@ export default function TabLayout() {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+          tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
           headerShown: false,
           tabBarStyle: Platform.select({
             ios: {
