@@ -1,3 +1,5 @@
+import { saveToken } from "@/utils/token";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
   Keyboard,
@@ -12,11 +14,50 @@ import { Button, Text, TextInput } from "react-native-paper";
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const loginApi = async () => {
+    try {
+      const response = await fetch(
+        "https://jarvisbackend-production.up.railway.app/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed");
+        return null;
+      }
+
+      return data.token;
+    } catch (err) {
+      setError("Something went wrong");
+      return null;
+    }
+  };
 
   const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // TODO: Add login logic here
+    if (email && password) {
+      loginApi().then((token) => {
+        if (token) {
+          console.log("Login successful, token:", token);
+          saveToken("jwt", token);
+          router.navigate("/");
+        }
+      });
+    } else {
+      setError("All fields are required");
+    }
   };
 
   return (
@@ -52,6 +93,10 @@ const LoginScreen = () => {
           <Button mode="contained" onPress={handleLogin} style={styles.button}>
             Login
           </Button>
+          {error && <Text style={styles.error}>{error}</Text>}
+          <Text style={styles.redirectingLink}>
+            Don not have an account ? <Link href={"/signUp"}>Sing Up</Link>
+          </Text>
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -78,5 +123,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12,
+  },
+  redirectingLink: {
+    marginTop: 10,
+  },
+  error: {
+    color: "red",
+    marginTop: 10,
   },
 });

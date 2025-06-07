@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { socket } from "./_layout";
+// import { socket } from "./_layout";
 
 export default function HomeScreen() {
   const { text }: { text: string } = useLocalSearchParams();
@@ -21,17 +21,17 @@ export default function HomeScreen() {
   useEffect(() => {
     apiCall();
   }, []);
-  useEffect(() => {
-    socket.on("/gptResponse", (reply) => {
-      setGptStreamingResponse((prev) => {
-        return prev + reply;
-      });
-    });
+  // useEffect(() => {
+  //   socket.on("/gptResponse", (reply) => {
+  //     setGptStreamingResponse((prev) => {
+  //       return prev + reply;
+  //     });
+  //   });
 
-    return () => {
-      socket.off("/gptResponse");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("/gptResponse");
+  //   };
+  // }, []);
   useEffect(() => {
     if (text) {
       // Tts.speak(`${text}`, {
