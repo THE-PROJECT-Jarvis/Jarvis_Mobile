@@ -1,5 +1,3 @@
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import Voice from "@react-native-voice/voice";
 import { Tabs, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -12,7 +10,6 @@ export const socket = io("https://jarvisbackend-production.up.railway.app", {
 });
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const router = useRouter();
   const [started, setStarted] = useState<boolean | undefined>(undefined);
 
@@ -60,22 +57,6 @@ export default function TabLayout() {
     };
   }, []);
 
-  useEffect(() => {
-    socket.on("/gptResponse", (reply) => {
-      console.log("GPT Response:", reply);
-      router.push({
-        pathname: "/",
-        params: { text: reply },
-      });
-    });
-    return () => {
-      socket.off("/gptResponse");
-    };
-  }, []);
-  // useEffect(() => {
-  //   console.log("resutl : ", result);
-  // }, [result]);
-
   const startListening = async () => {
     try {
       setStarted(true);
@@ -89,7 +70,6 @@ export default function TabLayout() {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
           headerShown: false,
           tabBarStyle: Platform.select({
             ios: {

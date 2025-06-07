@@ -1,10 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { socket } from "./_layout";
 
 export default function HomeScreen() {
   const { text }: { text: string } = useLocalSearchParams();
   const [chatHistory, setChatHistory] = useState<string[]>([]);
+  const [gptStreamingResponse, setGptStreamingResponse] = useState("");
   const apiCall = async () => {
     try {
       const res = await fetch(
@@ -18,6 +20,17 @@ export default function HomeScreen() {
   };
   useEffect(() => {
     apiCall();
+  }, []);
+  useEffect(() => {
+    socket.on("/gptResponse", (reply) => {
+      setGptStreamingResponse((prev) => {
+        return prev + reply;
+      });
+    });
+
+    return () => {
+      socket.off("/gptResponse");
+    };
   }, []);
   useEffect(() => {
     if (text) {
@@ -50,6 +63,7 @@ export default function HomeScreen() {
         ) : (
           <Text>{""}</Text>
         )}
+        <Text>{gptStreamingResponse}</Text>
       </View>
     </ScrollView>
   );
