@@ -127,15 +127,18 @@ export default function TabLayout() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.inputContainer}
         >
-          <TextInput
-            style={styles.input}
-            placeholder="Type or tap microphone..."
-            value={text}
-            onChangeText={setText}
-          />
-          <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
-            <Icon source="send" color="#fff" size={24} />
-          </TouchableOpacity>
+          <View style={styles.inputTextContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Type or tap microphone..."
+              value={text}
+              onChangeText={setText}
+            />
+            <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+              <Icon source="send" color="#fff" size={24} />
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity
             onPress={!started ? startListening : stopListening}
             style={styles.micButton}
@@ -149,10 +152,22 @@ export default function TabLayout() {
         </KeyboardAvoidingView>
 
         <View style={styles.tabBar}>
-          <Icon source="calendar" size={24} color="#aaa" />
-          <Icon source="calendar-star" size={24} color="#aaa" />
-          <Icon source="clipboard-text-outline" size={24} color="#aaa" />
-          <Icon source="tools" size={24} color="#aaa" />
+          <View style={styles.NavLink}>
+            <Icon source="brain" size={24} color="#aaa" />
+            <Text style={styles.navLinkText}>Jarvis</Text>
+          </View>
+          <View style={styles.NavLink}>
+            <Icon source="calendar-star" size={24} color="#aaa" />
+            <Text style={styles.navLinkText}>Events</Text>
+          </View>
+          <View style={styles.NavLink}>
+            <Icon source="clipboard-text-outline" size={24} color="#aaa" />
+            <Text style={styles.navLinkText}>Today</Text>
+          </View>
+          <View style={styles.NavLink}>
+            <Icon source="tools" size={24} color="#aaa" />
+            <Text style={styles.navLinkText}>Tools</Text>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -209,18 +224,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
   },
-  input: {
+  inputTextContainer: {
     flex: 1,
+    display: "flex",
+    flexDirection: "row",
     backgroundColor: "#333",
+    alignItems: "center",
     borderRadius: 10,
     paddingHorizontal: 16,
-    color: "#fff",
-    marginRight: 8,
+    marginRight: 15,
+    marginLeft: 10,
+  },
+  input: {
+    flex: 1,
     height: 40,
   },
-  sendButton: {
-    marginRight: 8,
-  },
+  sendButton: {},
   micButton: {
     backgroundColor: "#007AFF",
     padding: 10,
@@ -233,5 +252,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#222",
     backgroundColor: "#1e1e1e",
+  },
+  NavLink: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+  },
+  navLinkText: {
+    color: "white",
   },
 });
