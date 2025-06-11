@@ -1,5 +1,4 @@
 import Voice from "@react-native-voice/voice";
-import { useRouter } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -20,13 +19,13 @@ export const socket = io("https://jarvisbackend-production.up.railway.app", {
 });
 
 export default function TabLayout() {
-  const router = useRouter();
   const [started, setStarted] = useState(false);
   const [messages, setMessages] = useState<
     { sender: string; message: string }[]
-  >([{ sender: "Jarvis", message: "How can I help you today?" }]);
+  >([{ sender: "Jarvis", message: "Hello boss how can i help ?" }]);
   const [text, setText] = useState("");
   const [streamingResponse, setStreamingResponse] = useState("");
+  const streamingResponseRef = useRef("");
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -52,8 +51,11 @@ export default function TabLayout() {
     });
 
     socket.on("/gptResponse", (response) => {
-      console.log("GPT Response:", response);
       setStreamingResponse((prev) => prev + response);
+    });
+
+    socket.on("/toolCallResponse", (response) => {
+      addMessage("Jarvis", response);
     });
 
     return () => {
@@ -63,6 +65,17 @@ export default function TabLayout() {
       socket.off("/gptResponse");
       if (responseTimer) clearTimeout(responseTimer);
     };
+  }, []);
+  useEffect(() => {
+    streamingResponseRef.current = streamingResponse;
+  }, [streamingResponse]);
+  useEffect(() => {
+    socket.on("/streamComplete", (respone) => {
+      const reply = streamingResponseRef.current;
+      console.log("response :", streamingResponse);
+      addMessage("Jarvis", reply ? reply : "");
+      setStreamingResponse("");
+    });
   }, []);
 
   const addMessage = (sender: string, message: string) => {
@@ -95,7 +108,9 @@ export default function TabLayout() {
       setText("");
     }
   };
-
+  useEffect(() => {
+    console.log("messages : ", messages);
+  }, [messages]);
   return (
     <SafeAreaView style={styles.safeArea} edges={["left", "right"]}>
       <View style={styles.container}>
@@ -104,7 +119,11 @@ export default function TabLayout() {
           <Icon source="cog-outline" size={24} color="#fff" />
         </View>
 
-        <ScrollView style={styles.chatContainer} ref={scrollRef}>
+        <ScrollView
+          style={styles.chatContainer}
+          ref={scrollRef}
+          keyboardShouldPersistTaps="handled"
+        >
           {messages.map((msg, index) => (
             <View
               key={index}
@@ -122,33 +141,35 @@ export default function TabLayout() {
             </View>
           )}
         </ScrollView>
-
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.inputContainer}
+          // style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          keyboardVerticalOffset={50}
         >
-          <View style={styles.inputTextContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Type or tap microphone..."
-              value={text}
-              onChangeText={setText}
-            />
-            <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
-              <Icon source="send" color="#fff" size={24} />
+          <View style={styles.inputContainer}>
+            <View style={styles.inputTextContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Type or tap microphone..."
+                value={text}
+                onChangeText={setText}
+              />
+              <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+                <Icon source="send" color="#fff" size={24} />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              onPress={!started ? startListening : stopListening}
+              style={styles.micButton}
+            >
+              <Icon
+                source={started ? "pause" : "microphone"}
+                color="#fff"
+                size={24}
+              />
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            onPress={!started ? startListening : stopListening}
-            style={styles.micButton}
-          >
-            <Icon
-              source={started ? "pause" : "microphone"}
-              color="#fff"
-              size={24}
-            />
-          </TouchableOpacity>
         </KeyboardAvoidingView>
 
         <View style={styles.tabBar}>
