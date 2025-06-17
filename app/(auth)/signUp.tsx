@@ -54,7 +54,7 @@ const SignupScreen = () => {
         if (token) {
           console.log("Login successful, token:", token);
           saveToken("jwt", token);
-          router.navigate("/");
+          router.navigate("/userInfo.component");
         }
       });
     } else {

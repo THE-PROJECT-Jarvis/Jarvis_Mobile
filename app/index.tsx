@@ -3,6 +3,8 @@ import { router } from "expo-router";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { PaperProvider } from "react-native-paper";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 type JwtPayload = {
   exp: number; // expiration in seconds since epoch
@@ -23,6 +25,8 @@ const App = () => {
     (async () => {
       const token = await getToken("jwt");
       if (token && !isTokenExpired(token)) {
+        // router.navigate("/(tabs)");
+        // router.navigate("/(tabs)");
         router.navigate("/(tabs)");
       } else {
         router.navigate("/login");
@@ -30,14 +34,18 @@ const App = () => {
     })();
   }, []);
   return (
-    <View style={Styles.container}>
-      <StatusBar
-        translucent={false} // Prevents app content from rendering under the status bar
-        backgroundColor="black" // Sets background color for Android
-        barStyle="light-content" // Light text/icons (use "dark-content" for dark text/icons)
-      />
-      <Text>Root Level Screen</Text>
-    </View>
+    <SafeAreaProvider>
+      <PaperProvider>
+        <View style={Styles.container}>
+          <StatusBar
+            translucent={false} // Prevents app content from rendering under the status bar
+            backgroundColor="black" // Sets background color for Android
+            barStyle="light-content" // Light text/icons (use "dark-content" for dark text/icons)
+          />
+          <Text>Root Level Screen</Text>
+        </View>
+      </PaperProvider>
+    </SafeAreaProvider>
   );
 };
 export default App;
