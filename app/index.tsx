@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import { PaperProvider } from "react-native-paper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 type JwtPayload = {
   exp: number; // expiration in seconds since epoch
@@ -27,25 +26,23 @@ const App = () => {
       if (token && !isTokenExpired(token)) {
         // router.navigate("/(tabs)");
         // router.navigate("/(tabs)");
-        router.navigate("/(tabs)");
+        router.navigate("/jarvis");
       } else {
         router.navigate("/login");
       }
     })();
   }, []);
   return (
-    <SafeAreaProvider>
-      <PaperProvider>
-        <View style={Styles.container}>
-          <StatusBar
-            translucent={false} // Prevents app content from rendering under the status bar
-            backgroundColor="black" // Sets background color for Android
-            barStyle="light-content" // Light text/icons (use "dark-content" for dark text/icons)
-          />
-          <Text>Root Level Screen</Text>
-        </View>
-      </PaperProvider>
-    </SafeAreaProvider>
+    <PaperProvider>
+      <View style={Styles.container}>
+        <StatusBar
+          translucent={true} // Prevents app content from rendering under the status bar
+          backgroundColor="transparent" // Sets background color for Android
+          barStyle="dark-content" // Light text/icons (use "dark-content" for dark text/icons)
+        />
+        <Text>Root Level Screen</Text>
+      </View>
+    </PaperProvider>
   );
 };
 export default App;

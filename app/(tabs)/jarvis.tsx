@@ -1,3 +1,4 @@
+import { getToken } from "@/utils/token";
 import Voice from "@react-native-voice/voice";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -38,11 +39,15 @@ const Jarvis = () => {
       if (e.value && e.value[0]) {
         const spokenText = e.value[0];
         if (responseTimer) clearTimeout(responseTimer);
-        responseTimer = setTimeout(() => {
+        responseTimer = setTimeout(async () => {
           addMessage("user", spokenText);
           const prompt = [...messages, { role: "user", content: spokenText }];
           console.log("prompt", prompt);
-          socket.emit("/askGpt", prompt);
+          const token = await getToken("jwt");
+          socket.emit("/askGpt", {
+            userToken: token,
+            prompt: prompt,
+          });
         }, 2000);
       }
     };
@@ -122,7 +127,7 @@ const Jarvis = () => {
     }
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (text.trim()) {
       addMessage("user", text);
       const prompt = [...messages, { role: "user", content: text }];
@@ -131,7 +136,9 @@ const Jarvis = () => {
           scrollRef.current?.scrollToEnd({ animated: true });
         }, 100);
       }
-      socket.emit("/askGpt", prompt);
+      console.log("Token : ", getToken("jwt"));
+      const token = await getToken("jwt");
+      socket.emit("/askGpt", { userToken: token, prompt: prompt });
       setText("");
     }
   };
@@ -144,7 +151,7 @@ const Jarvis = () => {
   };
 
   return (
-    <View style={{ width: "100%", height: "100%" }}>
+    <View style={{ flex: 1 }}>
       <ScrollView
         style={styles.chatContainer}
         ref={scrollRef}
@@ -189,6 +196,7 @@ const Jarvis = () => {
               placeholder="Type or tap microphone..."
               value={text}
               onChangeText={setText}
+              placeholderTextColor={"#13b3e9"}
             />
             <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
               <Icon source="send" color="#fff" size={24} />
@@ -219,7 +227,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#111",
+    // backgroundColor: "#111",
+    // backgroundColor: "rgba(17, 17, 17, 0.2)",
+    backgroundColor: "transparent",
   },
   header: {
     padding: 20,
@@ -227,6 +237,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "rgba(30, 30, 30, 0.3)",
+    backdropFilter: "blur(8px)",
   },
   headerText: {
     fontSize: 20,
@@ -237,6 +249,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 8,
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   messageBubble: {
     maxWidth: "85%",
@@ -245,12 +258,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   jarvisBubble: {
-    backgroundColor: "#2c2c2e",
+    backgroundColor: "rgba(12, 135, 196, 0.59)",
     alignSelf: "flex-start",
   },
   userBubble: {
-    backgroundColor: "#3c3cfa",
+    backgroundColor: "#093957",
     alignSelf: "flex-end",
+    marginBottom: 20,
+    marginTop: 20,
+    //   1.	#04263c – Deep navy blue (great for background)
+    // 2.	#0e4979 – Cool electric blue
+    // 3.	#13b3e9 – Bright cyan (accent/highlight)
+    // 4.	#093957 – Muted blue-gray
+    // 5.	#0a6399 – Medium blue
+    // 6.	#0c87c4 – Vivid sky blue
   },
   messageText: {
     color: "#fff",
@@ -258,7 +279,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#1e1e1e",
     paddingHorizontal: 10,
     paddingVertical: 8,
   },
@@ -266,7 +286,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#333",
+    backgroundColor: "rgba(51, 51, 51, 0.4)",
     alignItems: "center",
     borderRadius: 10,
     paddingHorizontal: 16,
@@ -280,7 +300,7 @@ const styles = StyleSheet.create({
   },
   sendButton: {},
   micButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#13b3e9",
     padding: 10,
     borderRadius: 20,
   },
@@ -290,7 +310,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderColor: "#222",
-    backgroundColor: "#1e1e1e",
+    backgroundColor: "rgba(30, 30, 30, 0.3)",
   },
   NavLink: {
     display: "flex",

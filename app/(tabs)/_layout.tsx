@@ -1,69 +1,97 @@
 import { Link, Slot } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabLayout() {
   const [activeTab, setActiveTab] = useState("jarvis");
   const handleTabChange = (tab: string) => {
-    if (tab !== activeTab) {
-      setActiveTab(tab);
-    }
+    setActiveTab(tab);
   };
   return (
     <SafeAreaView style={styles.safeArea} edges={["left", "right"]}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>{"J.A.R.V.I.S"}</Text>
-          <Icon source="cog-outline" size={24} color="#fff" />
-        </View>
+      <ImageBackground
+        source={require("../../assets/images/jarvisChatWallpaper2.jpeg")}
+        style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
+        imageStyle={{ opacity: 0.3 }}
+      >
+        <StatusBar
+          backgroundColor="transparent" // or any hex code like "#111111"
+          barStyle="dark-content" // light-content for white icons, dark-content for black
+          translucent={true} // allows background to go under status bar
+        />
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>{"J.A.R.V.I.S"}</Text>
+            <Icon source="cog-outline" size={24} color="#fff" />
+          </View>
 
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <Slot />
-        </View>
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            <Slot initialRouteName="jarvis" />
+          </View>
 
-        <View style={styles.tabBar}>
-          <Link href={"/"} asChild>
+          <View style={styles.tabBar}>
+            <Link href={"/jarvis"} asChild>
+              <TouchableOpacity
+                onPress={() => handleTabChange("jarvis")}
+                style={styles.NavLink}
+              >
+                <Icon
+                  source="brain"
+                  size={24}
+                  color={
+                    activeTab === "jarvis" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
+                  }
+                />
+                <Text style={styles.navLinkText}>Jarvis</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href={"/events"} asChild>
+              <TouchableOpacity
+                onPress={() => handleTabChange("events")}
+                style={styles.NavLink}
+              >
+                <Icon
+                  source="calendar-star"
+                  size={24}
+                  color={
+                    activeTab === "events" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
+                  }
+                />
+                <Text style={styles.navLinkText}>Events</Text>
+              </TouchableOpacity>
+            </Link>
+
             <TouchableOpacity
-              onPress={() => handleTabChange("jarvis")}
+              onPress={() => handleTabChange("today")}
               style={styles.NavLink}
             >
-              <Icon source="brain" size={24} color="#aaa" />
-              <Text style={styles.navLinkText}>Jarvis</Text>
+              <Icon source="clipboard-text-outline" size={24} color="#aaa" />
+              <Text style={styles.navLinkText}>Today</Text>
             </TouchableOpacity>
-          </Link>
-          <Link href={"/events"} asChild>
+
             <TouchableOpacity
-              onPress={() => handleTabChange("events")}
+              onPress={() => handleTabChange("tools")}
               style={styles.NavLink}
             >
-              <Icon source="calendar-star" size={24} color="#aaa" />
-              <Text style={styles.navLinkText}>Events</Text>
+              <Icon source="tools" size={24} color="#aaa" />
+              <Text style={styles.navLinkText}>Tools</Text>
             </TouchableOpacity>
-          </Link>
-
-          <TouchableOpacity
-            onPress={() => handleTabChange("today")}
-            style={styles.NavLink}
-          >
-            <Icon source="clipboard-text-outline" size={24} color="#aaa" />
-            <Text style={styles.navLinkText}>Today</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => handleTabChange("tools")}
-            style={styles.NavLink}
-          >
-            <Icon source="tools" size={24} color="#aaa" />
-            <Text style={styles.navLinkText}>Tools</Text>
-          </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
@@ -75,11 +103,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#111",
   },
   header: {
     padding: 20,
-    // backgroundColor: "#1e1e1e",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -95,7 +121,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderColor: "#222",
-    backgroundColor: "#1e1e1e",
   },
   NavLink: {
     display: "flex",
@@ -104,6 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "white",
   },
+
   navLinkText: {
     color: "white",
   },
