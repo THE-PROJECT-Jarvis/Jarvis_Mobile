@@ -2,6 +2,7 @@ import { saveToken } from "@/utils/token";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
+  ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -61,45 +62,56 @@ const LoginScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <View style={styles.inner}>
-          <Text variant="titleLarge" style={styles.heading}>
-            Welcome Back
-          </Text>
+    <ImageBackground
+      source={require("../../assets/images/jarvisChatWallpaper.jpeg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
+      imageStyle={{ opacity: 0.3 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          <View style={styles.inner}>
+            <Text variant="titleLarge" style={styles.heading}>
+              Welcome Back
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Type your email here"
+              value={email}
+              onChangeText={setEmail}
+              placeholderTextColor={"#13b3e9"}
+              textColor="white"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Type your password here"
+              value={password}
+              secureTextEntry
+              onChangeText={setPassword}
+              placeholderTextColor={"#13b3e9"}
+              textColor="white"
+            />
 
-          <TextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            style={styles.input}
-            mode="outlined"
-          />
-
-          <TextInput
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-            mode="outlined"
-          />
-
-          <Button mode="contained" onPress={handleLogin} style={styles.button}>
-            Login
-          </Button>
-          {error && <Text style={styles.error}>{error}</Text>}
-          <Text style={styles.redirectingLink}>
-            Don not have an account ? <Link href={"/signUp"}>Sing Up</Link>
-          </Text>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <Button
+              mode="contained"
+              onPress={handleLogin}
+              style={styles.button}
+            >
+              Login
+            </Button>
+            {error && <Text style={styles.error}>{error}</Text>}
+            <Text style={styles.redirectingLink}>
+              Don not have an account ?{" "}
+              <Link href={"/signUp"} style={styles.link}>
+                Sign In
+              </Link>
+            </Text>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
@@ -108,27 +120,46 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    color: "white",
+    flexDirection: "column",
+    justifyContent: "flex-end",
   },
   inner: {
-    flex: 1,
     justifyContent: "center",
     padding: 24,
+    color: "white",
   },
   heading: {
     marginBottom: 24,
     textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
   },
   input: {
     marginBottom: 16,
+    backgroundColor: "rgba(12, 135, 196, 0.59)",
+    color: "white",
   },
   button: {
     marginTop: 12,
+    backgroundColor: "#13b3e9",
   },
   redirectingLink: {
     marginTop: 10,
+    color: "white",
   },
   error: {
     color: "red",
     marginTop: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+  link: {
+    color: "#13b3e9",
+    fontWeight: "bold",
   },
 });

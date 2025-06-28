@@ -83,5 +83,11 @@
     <string>Automatic</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
+    <key>NSMicrophoneUsageDescription</key>Add commentMore actions
+    <string>We need access to your microphone to convert speech to text.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>We need access to speech recognition for voice-to-text.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>Add commentMore actions
+    <string>This app uses speech synthesis to respond with audio.</string>
   </dict>
 </plist>

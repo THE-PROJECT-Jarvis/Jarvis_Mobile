@@ -69,6 +69,8 @@ const QuestionCard = ({ category }: { category: ICategory }) => {
       titleStyle={{
         color: "white",
         fontSize: 25,
+        fontWeight: "bold",
+        backgroundColor: "transparent",
       }}
       expanded={expanded}
       onPress={() => setExpanded(!expanded)}
@@ -79,7 +81,6 @@ const QuestionCard = ({ category }: { category: ICategory }) => {
           {category.questions.map((ques, idx) => (
             <QuestionInput key={idx} question={ques} control={control} />
           ))}
-
           <Text style={styles.labelText}>Want to tell more ?</Text>
           <Controller
             name="extraInstruction"

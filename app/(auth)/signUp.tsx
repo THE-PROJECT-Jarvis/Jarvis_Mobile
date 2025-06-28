@@ -2,6 +2,7 @@ import { saveToken } from "@/utils/token";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
+  ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -67,53 +68,64 @@ const SignupScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <View style={styles.inner}>
-          <Text variant="titleLarge" style={styles.heading}>
-            Create Account
-          </Text>
+    <ImageBackground
+      source={require("../../assets/images/jarvisChatWallpaper.jpeg")}
+      style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
+      imageStyle={{ opacity: 0.3 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={styles.inner}>
+            <Text variant="titleLarge" style={styles.heading}>
+              Create Account
+            </Text>
 
-          <TextInput
-            label="Name"
-            value={name}
-            onChangeText={setName}
-            style={styles.input}
-            mode="outlined"
-          />
+            <TextInput
+              style={styles.input}
+              placeholder="Type your name here ...."
+              value={name}
+              onChangeText={setName}
+              placeholderTextColor={"#13b3e9"}
+              textColor="white"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Enter a valid email here ...."
+              value={email}
+              onChangeText={setEmail}
+              placeholderTextColor={"#13b3e9"}
+              textColor="white"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Type your password here ...."
+              value={password}
+              onChangeText={setPassword}
+              placeholderTextColor={"#13b3e9"}
+              textColor="white"
+            />
 
-          <TextInput
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            style={styles.input}
-            mode="outlined"
-          />
-
-          <TextInput
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-            mode="outlined"
-          />
-
-          <Button mode="contained" onPress={handleSignup} style={styles.button}>
-            Sign Up
-          </Button>
-          {error && <Text style={styles.error}>{error}</Text>}
-          <Text style={styles.redirectingLink}>
-            Already have a account ? <Link href={"/login"}>Login</Link>
-          </Text>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <Button
+              mode="contained"
+              onPress={handleSignup}
+              style={styles.button}
+            >
+              Sign Up
+            </Button>
+            {error && <Text style={styles.error}>{error}</Text>}
+            <Text style={styles.redirectingLink}>
+              Already have a account ?{" "}
+              <Link href={"/login"} style={styles.link}>
+                Login
+              </Link>
+            </Text>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
@@ -122,27 +134,38 @@ export default SignupScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-end",
   },
   inner: {
-    flex: 1,
     justifyContent: "center",
     padding: 24,
   },
   heading: {
-    marginBottom: 24,
+    marginBottom: 14,
     textAlign: "center",
+    color: "white",
+    fontWeight: "bold",
   },
   input: {
-    marginBottom: 16,
+    marginBottom: 10,
+    backgroundColor: "rgba(12, 135, 196, 0.59)",
+    color: "white",
   },
   button: {
     marginTop: 12,
+    backgroundColor: "#13b3e9",
   },
   redirectingLink: {
     marginTop: 10,
+    color: "white",
   },
   error: {
     color: "red",
     marginTop: 10,
+  },
+  link: {
+    color: "#13b3e9",
+    fontWeight: "bold",
   },
 });

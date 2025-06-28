@@ -17,17 +17,24 @@ export default function TabLayout() {
     setActiveTab(tab);
   };
   return (
-    <SafeAreaView style={styles.safeArea} edges={["left", "right"]}>
-      <ImageBackground
-        source={require("../../assets/images/jarvisChatWallpaper2.jpeg")}
-        style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
-        imageStyle={{ opacity: 0.3 }}
+    <ImageBackground
+      source={require("../../assets/images/jarvisChatWallpaper2.jpeg")}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#111",
+      }}
+      imageStyle={{ opacity: 0.3 }}
+    >
+      <StatusBar
+        backgroundColor="transparent" // or any hex code like "#111111"
+        barStyle="light-content" // light-content for white icons, dark-content for black
+        translucent={true} // allows background to go under status bar
+      />
+      <SafeAreaView
+        style={styles.safeArea}
+        edges={["left", "right", "top", "bottom"]}
       >
-        <StatusBar
-          backgroundColor="transparent" // or any hex code like "#111111"
-          barStyle="dark-content" // light-content for white icons, dark-content for black
-          translucent={true} // allows background to go under status bar
-        />
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.headerText}>{"J.A.R.V.I.S"}</Text>
@@ -91,15 +98,14 @@ export default function TabLayout() {
             </TouchableOpacity>
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "red",
   },
   container: {
     flex: 1,

@@ -1,6 +1,6 @@
+import { socket } from "@/utils/socket";
 import { getToken } from "@/utils/token";
 import Voice from "@react-native-voice/voice";
-import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -15,11 +15,6 @@ import {
   View,
 } from "react-native";
 import { Icon } from "react-native-paper";
-import { io } from "socket.io-client";
-
-export const socket = io("https://jarvisbackend-production.up.railway.app", {
-  transports: ["websocket"],
-});
 
 const Jarvis = () => {
   const [started, setStarted] = useState(false);
@@ -51,15 +46,6 @@ const Jarvis = () => {
         }, 2000);
       }
     };
-
-    socket.on("connect", () => {
-      console.log("Socket connected: ", socket.id);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnected");
-    });
-
     socket.on("/gptResponse", (response) => {
       setStreamingResponse((prev) => prev + response);
     });
@@ -69,7 +55,12 @@ const Jarvis = () => {
     });
 
     return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
+      Voice.removeAllListeners();
+      Voice.destroy().catch((e) => console.error("Voice destroy error", e));
+      Voice.onSpeechError = (error) => {
+        console.error("Speech error:", error);
+        setStarted(false);
+      };
       socket.off("connect");
       socket.off("disconnect");
       socket.off("/gptResponse");
@@ -146,10 +137,6 @@ const Jarvis = () => {
     console.log("messages : ", messages);
   }, [messages]);
 
-  const handleTabChange = (route: any) => {
-    router.navigate(route);
-  };
-
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -206,6 +193,7 @@ const Jarvis = () => {
           <TouchableOpacity
             onPress={!started ? startListening : stopListening}
             style={styles.micButton}
+            disabled={true}
           >
             <Icon
               source={started ? "pause" : "microphone"}
