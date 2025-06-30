@@ -300,7 +300,7 @@ const PlanGenerator = () => {
         <KeyboardAvoidingView
           // style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={112}
+          keyboardVerticalOffset={10}
         >
           <View style={styles.inputContainer}>
             <View style={styles.inputTextContainer}>
