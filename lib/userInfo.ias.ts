@@ -52,6 +52,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    marginBottom: 10,
   },
   GenerateButton: {
     backgroundColor: "#007AFF",

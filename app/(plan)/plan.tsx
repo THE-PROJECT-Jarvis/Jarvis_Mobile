@@ -2,6 +2,7 @@
 import { socket } from "@/utils/socket";
 import { getToken } from "@/utils/token";
 import Voice from "@react-native-voice/voice";
+import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -19,6 +20,7 @@ import {
 import Markdown from "react-native-markdown-display";
 import { Button, Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 const { height, width } = Dimensions.get("window");
 
@@ -29,6 +31,8 @@ const PlanGenerator = () => {
   const [started, setStarted] = useState(false);
   const [text, setText] = useState("");
   const [planText, setPlanText] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [plan, setPlan] = useState<{
     title: string;
     majorGoal: string;
@@ -68,6 +72,7 @@ const PlanGenerator = () => {
         requestAnimationFrame(() => {
           scrollViewRef.current?.scrollTo({ y: 0, animated: true });
         });
+        console.log("plan : ", plan);
         // if (plan?.voiceOutputText) {
         //   console.log("voice ");
         //   Tts.stop(); // Stop any existing speech
@@ -164,6 +169,48 @@ const PlanGenerator = () => {
       };
     };
   }, []);
+  const handleConfirmPlan = async () => {
+    try {
+      setLoading(true);
+      let categoryData = category.split(",");
+      const token = await getToken("jwt");
+      if (!token) throw new Error("Token not found");
+      const slectedCategory = categoryData[0].toLowerCase();
+      console.log("selected Category : ", slectedCategory);
+      await axios.post(
+        `https://jarvisbackend-production.up.railway.app/api/plan/${slectedCategory}`,
+        {
+          plan: JSON.stringify(plan),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSaved(true);
+      if (categoryData.length > 1) {
+        categoryData.shift();
+        router.push({
+          pathname: "/plan",
+          params: {
+            category: categoryData.join(","),
+          },
+        });
+      } else {
+        router.navigate("/jarvis");
+      }
+    } catch (error: any) {
+      console.error("API Error:", error);
+      Toast.show({
+        type: "error",
+        text1: "Failed to save",
+        text2: error?.message || "Something went wrong",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <ImageBackground
@@ -188,27 +235,13 @@ const PlanGenerator = () => {
             <Button
               mode="contained"
               style={styles.GenerateButton}
-              onPress={() => {
-                let categoryData = category.split(",");
-                if (categoryData.length > 1) {
-                  categoryData.shift();
-                  router.push({
-                    pathname: "/plan",
-                    params: {
-                      category: categoryData.join(","),
-                    },
-                  });
-                } else {
-                  router.navigate("/jarvis");
-                }
-              }}
+              onPress={handleConfirmPlan}
               textColor="white"
             >
-              Confirm Plan
+              {loading ? "Confirming ... " : "Confirm Plan"}
             </Button>
           )}
         </View>
-
         <ScrollView
           ref={scrollViewRef}
           style={styles.container}

@@ -2,7 +2,7 @@ import { router, useNavigation } from "expo-router";
 import React, { useState } from "react";
 import { ImageBackground, ScrollView, Text, View } from "react-native";
 import { Button, Chip } from "react-native-paper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { categories, ICategory, styles } from "../../lib/userInfo.ias";
 import QuestionCard from "./questionCard.component";
@@ -28,12 +28,17 @@ const UserInfo = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <ImageBackground
-        source={require("../../assets/images/jarvisChatWallpaper.jpeg")}
-        style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
-        imageStyle={{ opacity: 0.3 }}
-      >
+    <ImageBackground
+      source={require("../../assets/images/jarvisChatWallpaper.jpeg")}
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "#111",
+        flex: 1,
+      }}
+      imageStyle={{ opacity: 0.3 }}
+    >
+      <SafeAreaView edges={["left", "right", "top"]} style={styles.container}>
         <ScrollView
           style={styles.container}
           contentContainerStyle={{ paddingBottom: 80 }}
@@ -83,8 +88,8 @@ const UserInfo = () => {
               : "Select atleast one Cateogry "}
           </Button>
         </View>
-      </ImageBackground>
-    </SafeAreaProvider>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

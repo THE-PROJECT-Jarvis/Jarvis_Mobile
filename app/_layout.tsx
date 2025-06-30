@@ -42,7 +42,7 @@ const AppLayout = () => {
     (async () => {
       const token = await getToken("jwt");
       if (token && !isTokenExpired(token)) {
-        router.replace("/userInfo.component");
+        router.replace("/jarvis");
       } else if (!token) {
         router.navigate("/signUp");
       } else {

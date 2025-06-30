@@ -1,11 +1,12 @@
 import { saveToken } from "@/utils/token";
 import { Link, router } from "expo-router";
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import {
   ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  TextInput as RNTextInput,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -16,6 +17,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const passwordInputRef = useRef<RNTextInput>(null);
 
   const loginApi = async () => {
     try {
@@ -23,23 +25,15 @@ const LoginScreen = () => {
         "https://jarvisbackend-production.up.railway.app/api/auth/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
         }
       );
-
       const data = await response.json();
-
       if (!response.ok) {
         setError(data.message || "Login failed");
         return null;
       }
-
       return data.token;
     } catch (err) {
       setError("Something went wrong");
@@ -51,9 +45,8 @@ const LoginScreen = () => {
     if (email && password) {
       loginApi().then((token) => {
         if (token) {
-          console.log("Login successful, token:", token);
           saveToken("jwt", token);
-          router.navigate("/");
+          router.navigate("/jarvis");
         }
       });
     } else {
@@ -64,57 +57,66 @@ const LoginScreen = () => {
   return (
     <ImageBackground
       source={require("../../assets/images/jarvisChatWallpaper.jpeg")}
-      style={{ width: "100%", height: "100%", backgroundColor: "#111" }}
+      style={{ flex: 1, backgroundColor: "#111" }}
       imageStyle={{ opacity: 0.3 }}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
-        >
-          <View style={styles.inner}>
-            <Text variant="titleLarge" style={styles.heading}>
-              Welcome Back
-            </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Type your email here"
-              value={email}
-              onChangeText={setEmail}
-              placeholderTextColor={"#13b3e9"}
-              textColor="white"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Type your password here"
-              value={password}
-              secureTextEntry
-              onChangeText={setPassword}
-              placeholderTextColor={"#13b3e9"}
-              textColor="white"
-            />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <View style={styles.inner}>
+              <Text variant="titleLarge" style={styles.heading}>
+                Welcome Back
+              </Text>
 
-            <Button
-              mode="contained"
-              onPress={handleLogin}
-              style={styles.button}
-            >
-              Login
-            </Button>
-            {error && <Text style={styles.error}>{error}</Text>}
-            <Text style={styles.redirectingLink}>
-              Don not have an account ?{" "}
-              <Link href={"/signUp"} style={styles.link}>
-                Sign In
-              </Link>
-            </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Type your email here"
+                value={email}
+                onChangeText={setEmail}
+                placeholderTextColor={"#13b3e9"}
+                textColor="white"
+                returnKeyType="next"
+                blurOnSubmit={false}
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              />
+
+              <TextInput
+                ref={passwordInputRef}
+                style={styles.input}
+                placeholder="Type your password here"
+                value={password}
+                onChangeText={setPassword}
+                placeholderTextColor={"#13b3e9"}
+                textColor="white"
+                returnKeyType="done"
+              />
+
+              <Button
+                mode="contained"
+                onPress={handleLogin}
+                style={styles.button}
+              >
+                Login
+              </Button>
+
+              {error && <Text style={styles.error}>{error}</Text>}
+
+              <Text style={styles.redirectingLink}>
+                Don’t have an account?{" "}
+                <Link href={"/signUp"} style={styles.link}>
+                  Sign In
+                </Link>
+              </Text>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
-
 export default LoginScreen;
 
 const styles = StyleSheet.create({
