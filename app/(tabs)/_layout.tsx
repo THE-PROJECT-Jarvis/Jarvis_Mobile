@@ -43,7 +43,11 @@ export default function TabLayout() {
           <View style={styles.header}>
             <Text style={styles.headerText}>{"Lyra"}</Text>
             <TouchableOpacity onPress={() => setProfileDrawer(!profileDrawer)}>
-              <Icon source="cog-outline" size={24} color="#fff" />
+              <Icon
+                source="account-circle"
+                size={24}
+                color={profileDrawer ? "rgba(12, 135, 196, 0.59)" : "#fff"}
+              />
             </TouchableOpacity>
           </View>
 
@@ -121,6 +125,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingRight: 30,
   },
   headerText: {
     fontSize: 20,
