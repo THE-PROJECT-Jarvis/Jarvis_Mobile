@@ -65,16 +65,17 @@ const QuestionCard = ({ category }: { category: ICategory }) => {
 
   return (
     <List.Accordion
+      key={category.label}
       title={category.label}
-      titleStyle={{
-        color: "white",
-        fontSize: 25,
-        fontWeight: "bold",
-        backgroundColor: "transparent",
+      titleStyle={{ color: "white", fontWeight: "bold" }}
+      style={{
+        backgroundColor: "rgba(12, 135, 196, 0.33)",
+        marginBottom: 8,
+        borderRadius: 6,
       }}
       expanded={expanded}
       onPress={() => setExpanded(!expanded)}
-      style={{ backgroundColor: "#222" }}
+      theme={{ colors: { background: "transparent" } }}
     >
       <Card style={styles.card}>
         <Card.Content>
@@ -91,7 +92,7 @@ const QuestionCard = ({ category }: { category: ICategory }) => {
                 onChangeText={onChange}
                 style={styles.input}
                 placeholder="Additional instruction you want to pass"
-                placeholderTextColor={"grey"}
+                placeholderTextColor={"#13b3e9"}
               />
             )}
           />

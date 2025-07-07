@@ -21,6 +21,7 @@ import Markdown from "react-native-markdown-display";
 import { Button, Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
+import Tts from "react-native-tts";
 
 const { height, width } = Dimensions.get("window");
 
@@ -73,19 +74,19 @@ const PlanGenerator = () => {
           scrollViewRef.current?.scrollTo({ y: 0, animated: true });
         });
         console.log("plan : ", plan);
-        // if (plan?.voiceOutputText) {
-        //   console.log("voice ");
-        //   Tts.stop(); // Stop any existing speech
-        //   Tts.speak(`${plan.voiceOutputText}`, {
-        //     iosVoiceId: "com.apple.ttsbundle.Moira-compact",
-        //     rate: 0.5,
-        //     androidParams: {
-        //       KEY_PARAM_PAN: -1,
-        //       KEY_PARAM_VOLUME: 0.5,
-        //       KEY_PARAM_STREAM: "STREAM_MUSIC",
-        //     },
-        //   });
-        // }
+        if (plan?.voiceOutputText) {
+          console.log("voice ");
+          Tts.stop(); // Stop any existing speech
+          Tts.speak(`${plan.voiceOutputText}`, {
+            iosVoiceId: "com.apple.ttsbundle.Moira-compact",
+            rate: 0.5,
+            androidParams: {
+              KEY_PARAM_PAN: -1,
+              KEY_PARAM_VOLUME: 0.5,
+              KEY_PARAM_STREAM: "STREAM_MUSIC",
+            },
+          });
+        }
       });
     };
 
@@ -300,7 +301,7 @@ const PlanGenerator = () => {
         <KeyboardAvoidingView
           // style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={10}
+          keyboardVerticalOffset={0}
         >
           <View style={styles.inputContainer}>
             <View style={styles.inputTextContainer}>

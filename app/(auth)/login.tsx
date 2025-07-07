@@ -34,9 +34,11 @@ const LoginScreen = () => {
         setError(data.message || "Login failed");
         return null;
       }
+      console.log("respone : ", response);
       return data.token;
     } catch (err) {
       setError("Something went wrong");
+      console.log("error :", err);
       return null;
     }
   };
@@ -79,8 +81,8 @@ const LoginScreen = () => {
                 placeholderTextColor={"#13b3e9"}
                 textColor="white"
                 returnKeyType="next"
-                blurOnSubmit={false}
                 onSubmitEditing={() => passwordInputRef.current?.focus()}
+                autoCapitalize="none"
               />
 
               <TextInput
@@ -92,6 +94,7 @@ const LoginScreen = () => {
                 placeholderTextColor={"#13b3e9"}
                 textColor="white"
                 returnKeyType="done"
+                autoCapitalize="none"
               />
 
               <Button

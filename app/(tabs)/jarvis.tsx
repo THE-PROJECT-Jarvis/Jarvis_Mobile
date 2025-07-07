@@ -4,6 +4,7 @@ import Voice from "@react-native-voice/voice";
 import { useEffect, useRef, useState } from "react";
 
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -14,22 +15,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Markdown from "react-native-markdown-display";
 import { Icon } from "react-native-paper";
-
+import Tts from "react-native-tts";
+export interface IChat {
+  role: string;
+  content: string;
+}
 const Jarvis = () => {
   const [started, setStarted] = useState(false);
-  const [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    [{ role: "assistant", content: "Hello boss how can i help ?" }]
-  );
+  const [replyTo, setReplyTo] = useState<IChat | null>(null);
+  const [messages, setMessages] = useState<IChat[]>([
+    { role: "assistant", content: "Hi, I’m Lyra." },
+  ]);
   const [text, setText] = useState("");
   const [streamingResponse, setStreamingResponse] = useState("");
   const streamingResponseRef = useRef("");
   const scrollRef = useRef<ScrollView>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [speaking, setSpeaking] = useState<boolean>(false);
 
   useEffect(() => {
     let responseTimer: number | null = null;
-
     Voice.onSpeechResults = (e) => {
       if (e.value && e.value[0]) {
         const spokenText = e.value[0];
@@ -46,6 +53,7 @@ const Jarvis = () => {
         }, 2000);
       }
     };
+
     socket.on("/gptResponse", (response) => {
       setStreamingResponse((prev) => prev + response);
     });
@@ -113,6 +121,19 @@ const Jarvis = () => {
     try {
       await Voice.stop();
       setStarted(false);
+      Voice.onSpeechResults = async (e) => {
+        if (e.value && e.value[0]) {
+          const spokenText = e.value[0];
+          addMessage("user", spokenText);
+          const prompt = [...messages, { role: "user", content: spokenText }];
+          console.log("prompt", prompt);
+          const token = await getToken("jwt");
+          socket.emit("/askGpt", {
+            userToken: token,
+            prompt: prompt,
+          });
+        }
+      };
     } catch (e) {
       console.error(e);
     }
@@ -135,7 +156,41 @@ const Jarvis = () => {
   };
   useEffect(() => {
     console.log("messages : ", messages);
+    Voice.onSpeechError = (error) => {
+      console.error("Speech error:", error);
+      Alert.alert("Speech Error", JSON.stringify(error));
+      setStarted(false);
+    };
   }, [messages]);
+  useEffect(() => {
+    Tts.setDefaultLanguage("en-US");
+    Tts.speak(`Hi, I’m Lyra.`, {
+      iosVoiceId: "com.apple.ttsbundle.Moira-compact",
+      rate: 0.5,
+      androidParams: {
+        KEY_PARAM_PAN: -1,
+        KEY_PARAM_VOLUME: 0.5,
+        KEY_PARAM_STREAM: "STREAM_MUSIC",
+      },
+    });
+    const onStart = () => {
+      console.log("🔊 TTS started");
+      setSpeaking(true);
+    };
+    const onFinish = () => {
+      console.log("✅ TTS finished");
+    };
+    // const onProgress = (event) => {
+    //   console.log("📍 TTS progress:", event);
+    // };
+
+    Tts.addEventListener("tts-start", onStart);
+    Tts.addEventListener("tts-finish", onFinish);
+
+    return () => {
+      Tts.removeAllListeners("tts-start");
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -155,19 +210,66 @@ const Jarvis = () => {
         scrollEventThrottle={100}
       >
         {messages.map((msg, index) => (
-          <View
+          <TouchableOpacity
+            onLongPress={() => setReplyTo(msg)}
             key={index}
             style={[
               styles.messageBubble,
               msg.role === "user" ? styles.userBubble : styles.jarvisBubble,
             ]}
           >
-            <Text style={styles.messageText}>{msg.content}</Text>
-          </View>
+            <Markdown
+              style={{
+                body: {
+                  color: "white",
+                  fontSize: 16,
+                  paddingHorizontal: 10,
+                },
+                heading1: {
+                  color: "#13b3e9",
+                  fontSize: 22,
+                  fontWeight: "bold",
+                  marginBottom: 10,
+                },
+                heading2: {
+                  color: "#13b3e9",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  marginBottom: 8,
+                },
+                heading3: {
+                  color: "#13b3e9",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  marginBottom: 8,
+                },
+                paragraph: { color: "white", marginBottom: 8 },
+                strong: { fontWeight: "bold", color: "#ffffff" },
+                list_item: { color: "#ffffff" },
+                bullet_list: { marginBottom: 8 },
+                code_inline: {
+                  backgroundColor: "#222",
+                  color: "#13b3e9",
+                  padding: 4,
+                  borderRadius: 4,
+                },
+                blockquote: {
+                  backgroundColor: "#1e1e1e",
+                  padding: 10,
+                  borderLeftWidth: 4,
+                  borderLeftColor: "#13b3e9",
+                },
+              }}
+            >
+              {typeof msg.content === "string" ? msg.content : ""}
+            </Markdown>
+          </TouchableOpacity>
         ))}
         {streamingResponse && (
           <View style={[styles.messageBubble, styles.jarvisBubble]}>
-            <Text style={styles.messageText}>{streamingResponse}</Text>
+            <Text selectable style={styles.messageText}>
+              {streamingResponse}
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -176,14 +278,46 @@ const Jarvis = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={112}
       >
-        <View style={styles.inputContainer}>
+        {replyTo && (
+          <View
+            style={{
+              backgroundColor: "#093957",
+              padding: 10,
+              paddingHorizontal: 25,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={{ color: "#13b3e9", fontWeight: "bold" }}>
+                Replying to:
+              </Text>
+              <Text style={{ color: "grey" }} numberOfLines={1}>
+                {replyTo.content}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => setReplyTo(null)}>
+              <Icon source="close" color="#fff" size={20} />
+            </TouchableOpacity>
+          </View>
+        )}
+        <View
+          style={[
+            styles.inputContainer,
+            replyTo && { backgroundColor: "#093957" },
+          ]}
+        >
           <View style={styles.inputTextContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Type or tap microphone..."
+              placeholder="Type or say what’s on your mind"
               value={text}
               onChangeText={setText}
               placeholderTextColor={"#13b3e9"}
+              multiline
+              scrollEnabled
+              textAlignVertical="center"
             />
             <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
               <Icon source="send" color="#fff" size={24} />
@@ -193,7 +327,6 @@ const Jarvis = () => {
           <TouchableOpacity
             onPress={!started ? startListening : stopListening}
             style={styles.micButton}
-            disabled={true}
           >
             <Icon
               source={started ? "pause" : "microphone"}
@@ -280,11 +413,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginRight: 15,
     marginLeft: 10,
+    padding: 10,
   },
   input: {
     flex: 1,
-    height: 40,
     color: "white",
+    alignItems: "center",
+    maxHeight: 50,
   },
   sendButton: {},
   micButton: {

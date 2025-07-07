@@ -25,14 +25,14 @@ const QuestionInput = ({
               search={false}
               boxStyles={styles.input}
               placeholder="Select"
-              inputStyles={{ color: "grey" }}
+              inputStyles={{ color: "#13b3e9" }}
               dropdownStyles={{
-                backgroundColor: "#1e1e1e",
+                backgroundColor: "rgba(12, 135, 196, 0.33)",
                 borderWidth: 0,
               }}
               arrowicon={<Icon source={"menu-down"} size={24} color="gray" />}
               dropdownTextStyles={{
-                color: "grey",
+                color: "#13b3e9",
               }}
               defaultOption={question.options.find(
                 (opt) => opt.value === value
@@ -48,7 +48,7 @@ const QuestionInput = ({
               }
               style={styles.input}
               placeholder=" Answer : "
-              placeholderTextColor={"grey"}
+              placeholderTextColor={"#13b3e9"}
             />
           )
         }

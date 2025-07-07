@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 20,
+    paddingHorizontal: 10,
+    paddingTop: 10,
   },
   header: {
     fontSize: 22,
@@ -15,16 +15,15 @@ export const styles = StyleSheet.create({
   chipContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 5,
     marginBottom: 20,
   },
   chip: {
-    margin: 4,
-    marginRight: 1,
-    backgroundColor: "#333",
+    margin: 3,
+    backgroundColor: "rgba(12, 135, 196, 0.33)",
   },
   card: {
-    backgroundColor: "#222",
+    backgroundColor: "rgba(12, 135, 196, 0.33)",
     marginBottom: 20,
     borderRadius: 0,
   },
@@ -40,7 +39,7 @@ export const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
-    backgroundColor: "#1e1e1e",
+    backgroundColor: "rgba(51, 51, 51, 0.18)",
     borderWidth: 0,
     height: 40,
     padding: 10,

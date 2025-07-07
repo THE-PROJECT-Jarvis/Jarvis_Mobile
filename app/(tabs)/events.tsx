@@ -2,28 +2,17 @@ import { getToken } from "@/utils/token";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { Card, Divider } from "react-native-paper";
+import { List } from "react-native-paper"; // Add this import
 
-const mockEvents = {
-  lifeAlerts: [
-    { id: 1, title: "Doctor Appointment", time: "10:00 AM" },
-    { id: 2, title: "Take Medication", time: "9:00 PM" },
-  ],
-  reminders: [
-    { id: 3, title: "Call Mom", time: "6:00 PM" },
-    { id: 4, title: "Pay Bills", time: "8:00 PM" },
-  ],
-  normal: [
-    { id: 5, title: "Read Book", time: "9:30 PM" },
-    { id: 6, title: "Stretching Routine", time: "7:00 AM" },
-  ],
-};
-
+export interface ITodos {
+  title: string;
+  description: string;
+  createdAt: string;
+  completed: boolean;
+}
 const Events = () => {
   const [error, setError] = useState("");
-  const [todos, setTodos] = useState<{ title: string; description: string }[]>(
-    []
-  );
+  const [todos, setTodos] = useState<ITodos[]>([]);
 
   const getTodsApi = async () => {
     const userToken = await getToken("jwt");
@@ -54,9 +43,13 @@ const Events = () => {
   }, []);
   return (
     <ScrollView style={{ padding: 16 }}>
-      <Section title="Life Alerts" events={todos} />
-      <Section title="Reminders" events={mockEvents.reminders} />
-      <Section title="Normal Events" events={mockEvents.normal} />
+      <Section
+        title="Events"
+        events={todos.sort(
+          (a: ITodos, b: ITodos) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )}
+      />
     </ScrollView>
   );
 };
@@ -74,22 +67,35 @@ const Section = ({ title, events }: { title: string; events: any[] }) => (
       {title}
     </Text>
     {events.map((event, idx) => (
-      <Card
+      <List.Accordion
         key={idx}
+        title={event.title}
+        titleStyle={{ color: "white", fontWeight: "bold" }}
         style={{
-          marginBottom: 8,
           backgroundColor: "rgba(12, 135, 196, 0.33)",
+          marginBottom: 8,
+          borderRadius: 6,
         }}
+        description={event.completed ? "Completed" : "Pending"}
+        descriptionStyle={{
+          color: "grey",
+          fontStyle: "italic",
+        }}
+        theme={{ colors: { background: "transparent" } }}
       >
-        <Card.Content>
-          <Text style={{ color: "white", fontWeight: "bold" }}>
-            {event.title}
-          </Text>
-          {/* <Text style={{ color: "white" }}>{event.time}</Text> */}
-        </Card.Content>
-      </Card>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            paddingBottom: 12,
+            backgroundColor: "rgba(12, 135, 196, 0.33)",
+            marginBottom: 10,
+            padding: 10,
+          }}
+        >
+          <Text style={{ color: "#ccc" }}>{event.description}</Text>
+        </View>
+      </List.Accordion>
     ))}
-    <Divider style={{ marginBottom: 8 }} />
   </View>
 );
 

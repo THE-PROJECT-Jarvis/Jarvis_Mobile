@@ -1,3 +1,4 @@
+import { ProfileDrawer } from "@/components";
 import { Link, Slot } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -12,6 +13,7 @@ import { Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabLayout() {
+  const [profileDrawer, setProfileDrawer] = useState(false);
   const [activeTab, setActiveTab] = useState("jarvis");
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -31,14 +33,18 @@ export default function TabLayout() {
         barStyle="light-content" // light-content for white icons, dark-content for black
         translucent={true} // allows background to go under status bar
       />
+      {profileDrawer && <ProfileDrawer setProfileDrawer={setProfileDrawer} />}
+
       <SafeAreaView
         style={styles.safeArea}
         edges={["left", "right", "top", "bottom"]}
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>{"J.A.R.V.I.S"}</Text>
-            <Icon source="cog-outline" size={24} color="#fff" />
+            <Text style={styles.headerText}>{"Lyra"}</Text>
+            <TouchableOpacity onPress={() => setProfileDrawer(!profileDrawer)}>
+              <Icon source="cog-outline" size={24} color="#fff" />
+            </TouchableOpacity>
           </View>
 
           <View
@@ -62,7 +68,7 @@ export default function TabLayout() {
                     activeTab === "jarvis" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
                   }
                 />
-                <Text style={styles.navLinkText}>Jarvis</Text>
+                <Text style={styles.navLinkText}>Lyra</Text>
               </TouchableOpacity>
             </Link>
             <Link href={"/events"} asChild>
@@ -94,7 +100,7 @@ export default function TabLayout() {
               style={styles.NavLink}
             >
               <Icon source="tools" size={24} color="#aaa" />
-              <Text style={styles.navLinkText}>Tools</Text>
+              <Text style={styles.navLinkText}>Toolkit</Text>
             </TouchableOpacity>
           </View>
         </View>
