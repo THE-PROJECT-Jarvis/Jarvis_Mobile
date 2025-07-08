@@ -1,7 +1,14 @@
 import { getToken } from "@/utils/token";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Animated,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { List } from "react-native-paper"; // Add this import
 
 export interface ITodos {
@@ -10,11 +17,68 @@ export interface ITodos {
   createdAt: string;
   completed: boolean;
 }
+const { width } = Dimensions.get("window");
+
+const ShimmerItem = () => {
+  const shimmerAnim = useRef(new Animated.Value(-1)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(shimmerAnim, {
+        toValue: 1,
+        duration: 1200,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+  const translateX = shimmerAnim.interpolate({
+    inputRange: [-1, 1],
+    outputRange: [-width, width],
+  });
+
+  return (
+    <View style={styles.shimmerContainer}>
+      <Animated.View
+        style={[
+          styles.shimmerLight,
+          {
+            transform: [{ translateX }],
+          },
+        ]}
+      />
+    </View>
+  );
+};
+
+const LoadingSplash = () => {
+  const loaders = new Array(8).fill(null);
+
+  return (
+    <View>
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "bold",
+          color: "#fff",
+          marginBottom: 10,
+        }}
+      >
+        Events
+      </Text>
+      {loaders.map((_, index) => (
+        <ShimmerItem key={index} />
+      ))}
+    </View>
+  );
+};
 const Events = () => {
   const [error, setError] = useState("");
   const [todos, setTodos] = useState<ITodos[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getTodsApi = async () => {
+    setIsLoading(true);
     const userToken = await getToken("jwt");
     try {
       const response = await axios.get(
@@ -25,7 +89,6 @@ const Events = () => {
           },
         }
       );
-
       const data = await response.data;
       if (data) {
         console.log("data : ", data.todosData.todos);
@@ -36,6 +99,8 @@ const Events = () => {
       setError("Something went wrong");
       console.log("error ", err);
       return null;
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -43,13 +108,27 @@ const Events = () => {
   }, []);
   return (
     <ScrollView style={{ padding: 16 }}>
-      <Section
-        title="Events"
-        events={todos.sort(
-          (a: ITodos, b: ITodos) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )}
-      />
+      {error && <Text>{error}</Text>}
+      {/* <View
+        style={{
+          backgroundColor: "rgba(12, 135, 196, 0.33)",
+          marginBottom: 8,
+          borderRadius: 6,
+          height: 80,
+        }}
+      ></View> */}
+
+      {isLoading ? (
+        <LoadingSplash />
+      ) : (
+        <Section
+          title="Events"
+          events={todos.sort(
+            (a: ITodos, b: ITodos) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )}
+        />
+      )}
     </ScrollView>
   );
 };
@@ -100,3 +179,20 @@ const Section = ({ title, events }: { title: string; events: any[] }) => (
 );
 
 export default Events;
+
+const styles = StyleSheet.create({
+  shimmerContainer: {
+    overflow: "hidden",
+    backgroundColor: "rgba(12, 135, 196, 0.33)",
+    marginBottom: 8,
+    borderRadius: 6,
+    height: 80,
+  },
+  shimmerLight: {
+    position: "absolute",
+    width: "40%",
+    height: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    opacity: 0.8,
+  },
+});
