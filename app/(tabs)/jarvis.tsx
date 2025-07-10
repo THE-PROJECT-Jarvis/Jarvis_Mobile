@@ -18,18 +18,28 @@ import {
 import Markdown from "react-native-markdown-display";
 import { Icon } from "react-native-paper";
 import Tts from "react-native-tts";
+import { useChatStore } from "../../store/chatStore";
 export interface IChat {
   role: string;
   content: string;
 }
 const Jarvis = () => {
+  const {
+    messages,
+    streamingResponse,
+    addMessage,
+    resetMessages,
+    setStreamingResponse,
+    appendStreamingResponse,
+    resetStreamingResponse,
+  } = useChatStore();
   const [started, setStarted] = useState(false);
   const [replyTo, setReplyTo] = useState<IChat | null>(null);
-  const [messages, setMessages] = useState<IChat[]>([
-    { role: "assistant", content: "Hi, I’m Lyra." },
-  ]);
+  // const [messages, setMessages] = useState<IChat[]>([
+  //   { role: "assistant", content: "Hi, I’m Lyra." },
+  // ]);
   const [text, setText] = useState("");
-  const [streamingResponse, setStreamingResponse] = useState("");
+  // const [streamingResponse, setStreamingResponse] = useState("");
   const streamingResponseRef = useRef("");
   const scrollRef = useRef<ScrollView>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
@@ -42,7 +52,7 @@ const Jarvis = () => {
         const spokenText = e.value[0];
         if (responseTimer) clearTimeout(responseTimer);
         responseTimer = setTimeout(async () => {
-          addMessage("user", spokenText);
+          addMessage({ role: "user", content: spokenText });
           const prompt = [...messages, { role: "user", content: spokenText }];
           console.log("prompt", prompt);
           const token = await getToken("jwt");
@@ -55,11 +65,26 @@ const Jarvis = () => {
     };
 
     socket.on("/gptResponse", (response) => {
-      setStreamingResponse((prev) => prev + response);
+      appendStreamingResponse(response);
+      scrollRef.current?.scrollToEnd({ animated: true });
     });
 
     socket.on("/toolCallResponse", (response) => {
-      addMessage("assistant", response);
+      addMessage({ role: "assistant", content: response });
+    });
+
+    socket.on("/streamComplete", (respone) => {
+      const reply = streamingResponseRef.current;
+      console.log("response :", streamingResponse);
+      if (reply) {
+        addMessage({ role: "assistant", content: reply });
+        if (isAtBottom) {
+          setTimeout(() => {
+            scrollRef.current?.scrollToEnd({ animated: true });
+          }, 100);
+        }
+      }
+      setStreamingResponse("");
     });
 
     return () => {
@@ -72,20 +97,13 @@ const Jarvis = () => {
       socket.off("connect");
       socket.off("disconnect");
       socket.off("/gptResponse");
+      socket.off("/streamComplete");
       if (responseTimer) clearTimeout(responseTimer);
     };
   }, []);
   useEffect(() => {
     streamingResponseRef.current = streamingResponse;
   }, [streamingResponse]);
-  useEffect(() => {
-    socket.on("/streamComplete", (respone) => {
-      const reply = streamingResponseRef.current;
-      console.log("response :", streamingResponse);
-      addMessage("assistant", reply ? reply : "");
-      setStreamingResponse("");
-    });
-  }, []);
 
   useEffect(() => {
     const keyboardListener = Keyboard.addListener("keyboardDidShow", () => {
@@ -99,14 +117,14 @@ const Jarvis = () => {
     };
   }, []);
 
-  const addMessage = (role: string, content: string) => {
-    setMessages((prev) => [...prev, { role, content }]);
-    if (isAtBottom) {
-      setTimeout(() => {
-        scrollRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-    }
-  };
+  // const addMessage = (role: string, content: string) => {
+  //   setMessages((prev) => [...prev, { role, content }]);
+  //   if (isAtBottom) {
+  //     setTimeout(() => {
+  //       scrollRef.current?.scrollToEnd({ animated: true });
+  //     }, 100);
+  //   }
+  // };
 
   const startListening = async () => {
     try {
@@ -121,19 +139,6 @@ const Jarvis = () => {
     try {
       await Voice.stop();
       setStarted(false);
-      Voice.onSpeechResults = async (e) => {
-        if (e.value && e.value[0]) {
-          const spokenText = e.value[0];
-          addMessage("user", spokenText);
-          const prompt = [...messages, { role: "user", content: spokenText }];
-          console.log("prompt", prompt);
-          const token = await getToken("jwt");
-          socket.emit("/askGpt", {
-            userToken: token,
-            prompt: prompt,
-          });
-        }
-      };
     } catch (e) {
       console.error(e);
     }
@@ -141,7 +146,12 @@ const Jarvis = () => {
 
   const handleSend = async () => {
     if (text.trim()) {
-      addMessage("user", text);
+      addMessage({ role: "user", content: text });
+      if (isAtBottom) {
+        setTimeout(() => {
+          scrollRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      }
       const prompt = [...messages, { role: "user", content: text }];
       if (isAtBottom) {
         setTimeout(() => {
@@ -158,7 +168,7 @@ const Jarvis = () => {
     console.log("messages : ", messages);
     Voice.onSpeechError = (error) => {
       console.error("Speech error:", error);
-      Alert.alert("Speech Error", JSON.stringify(error));
+      Alert.alert("Speech Error", "Voice not recognised , Try again . ");
       setStarted(false);
     };
   }, [messages]);

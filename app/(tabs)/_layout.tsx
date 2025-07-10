@@ -56,7 +56,7 @@ export default function TabLayout() {
               flex: 1,
             }}
           >
-            <Slot initialRouteName="jarvis" />
+            <Slot />
           </View>
 
           <View style={styles.tabBar}>
