@@ -203,7 +203,18 @@ const Jarvis = () => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, position: "relative" }}>
+      {!isAtBottom && (
+        <TouchableOpacity
+          style={styles.toBottomIcon}
+          onPress={() => {
+            scrollRef.current?.scrollToEnd({ animated: true });
+          }}
+        >
+          <Icon source={"chevron-double-down"} color="#fff" size={24} />
+        </TouchableOpacity>
+      )}
+
       <ScrollView
         style={styles.chatContainer}
         ref={scrollRef}
@@ -454,5 +465,17 @@ const styles = StyleSheet.create({
   },
   navLinkText: {
     color: "white",
+  },
+  toBottomIcon: {
+    borderRadius: "50%",
+    backgroundColor: "rgba(51, 51, 51, 0.4)",
+    position: "absolute",
+    bottom: 60,
+    right: 10,
+    zIndex: 999,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12,
   },
 });
