@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@hookform/resolvers": "^5.1.1",
+    "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native-community/cli": "latest",
     "@react-native-vector-icons/material-design-icons": "^12.0.0",
     "@react-native-voice/voice": "^3.1.5",

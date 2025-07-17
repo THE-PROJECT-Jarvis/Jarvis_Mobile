@@ -1,5 +1,6 @@
 import { socket } from "@/utils/socket";
 import { getToken } from "@/utils/token";
+import Clipboard from "@react-native-clipboard/clipboard";
 import Voice from "@react-native-voice/voice";
 import { useEffect, useRef, useState } from "react";
 
@@ -8,6 +9,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -174,7 +176,7 @@ const Jarvis = () => {
   }, [messages]);
   useEffect(() => {
     Tts.setDefaultLanguage("en-US");
-    Tts.speak(`Hi, I’m Lyra.`, {
+    Tts.speak(`Hi, I’m Jarvis.`, {
       iosVoiceId: "com.apple.ttsbundle.Moira-compact",
       rate: 0.5,
       androidParams: {
@@ -230,62 +232,77 @@ const Jarvis = () => {
         }}
         scrollEventThrottle={100}
       >
-        {messages.map((msg, index) => (
-          <TouchableOpacity
-            onLongPress={() => setReplyTo(msg)}
-            key={index}
-            style={[
-              styles.messageBubble,
-              msg.role === "user" ? styles.userBubble : styles.jarvisBubble,
-            ]}
-          >
-            <Markdown
-              style={{
-                body: {
-                  color: "white",
-                  fontSize: 16,
-                  paddingHorizontal: 10,
-                },
-                heading1: {
-                  color: "#13b3e9",
-                  fontSize: 22,
-                  fontWeight: "bold",
-                  marginBottom: 10,
-                },
-                heading2: {
-                  color: "#13b3e9",
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                },
-                heading3: {
-                  color: "#13b3e9",
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  marginBottom: 8,
-                },
-                paragraph: { color: "white", marginBottom: 8 },
-                strong: { fontWeight: "bold", color: "#ffffff" },
-                list_item: { color: "#ffffff" },
-                bullet_list: { marginBottom: 8 },
-                code_inline: {
-                  backgroundColor: "#222",
-                  color: "#13b3e9",
-                  padding: 4,
-                  borderRadius: 4,
-                },
-                blockquote: {
-                  backgroundColor: "#1e1e1e",
-                  padding: 10,
-                  borderLeftWidth: 4,
-                  borderLeftColor: "#13b3e9",
-                },
+        {messages.map((msg, index) => {
+          let lastTap = 0;
+          return (
+            <Pressable
+              onPress={() => {
+                const now = Date.now();
+                if (now - lastTap < 300) {
+                  setReplyTo(msg); // Double tap detected
+                }
+                lastTap = now;
               }}
+              onLongPress={() => {
+                Clipboard.setString(
+                  typeof msg.content === "string" ? msg.content : ""
+                );
+                Alert.alert("Copied", "Message copied to clipboard");
+              }}
+              key={index}
+              style={[
+                styles.messageBubble,
+                msg.role === "user" ? styles.userBubble : styles.jarvisBubble,
+              ]}
             >
-              {typeof msg.content === "string" ? msg.content : ""}
-            </Markdown>
-          </TouchableOpacity>
-        ))}
+              <Markdown
+                style={{
+                  body: {
+                    color: "white",
+                    fontSize: 16,
+                    paddingHorizontal: 10,
+                  },
+                  heading1: {
+                    color: "#13b3e9",
+                    fontSize: 22,
+                    fontWeight: "bold",
+                    marginBottom: 10,
+                  },
+                  heading2: {
+                    color: "#13b3e9",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    marginBottom: 8,
+                  },
+                  heading3: {
+                    color: "#13b3e9",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    marginBottom: 8,
+                  },
+                  paragraph: { color: "white", marginBottom: 8 },
+                  strong: { fontWeight: "bold", color: "#ffffff" },
+                  list_item: { color: "#ffffff" },
+                  bullet_list: { marginBottom: 8 },
+                  code_inline: {
+                    backgroundColor: "#222",
+                    color: "#13b3e9",
+                    padding: 4,
+                    borderRadius: 4,
+                  },
+                  blockquote: {
+                    backgroundColor: "#1e1e1e",
+                    padding: 10,
+                    borderLeftWidth: 4,
+                    borderLeftColor: "#13b3e9",
+                  },
+                }}
+              >
+                {typeof msg.content === "string" ? msg.content : ""}
+              </Markdown>
+            </Pressable>
+          );
+        })}
         {streamingResponse && (
           <View style={[styles.messageBubble, styles.jarvisBubble]}>
             <Text selectable style={styles.messageText}>

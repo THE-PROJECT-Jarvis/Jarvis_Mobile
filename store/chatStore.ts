@@ -16,7 +16,7 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>((set) => ({
-  messages: [{ role: "assistant", content: "Hi, I’m Lyra." }],
+  messages: [{ role: "assistant", content: "Hello , I am Jarvis ." }],
   streamingResponse: "",
   addMessage: (msg) => set((state) => ({ messages: [...state.messages, msg] })),
   resetMessages: () => set({ messages: [] }),

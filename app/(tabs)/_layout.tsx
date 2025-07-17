@@ -41,7 +41,7 @@ export default function TabLayout() {
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>{"Lyra"}</Text>
+            <Text style={styles.headerText}>{"NextU"}</Text>
             <TouchableOpacity onPress={() => setProfileDrawer(!profileDrawer)}>
               <Icon
                 source="account-circle"
@@ -72,7 +72,7 @@ export default function TabLayout() {
                     activeTab === "jarvis" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
                   }
                 />
-                <Text style={styles.navLinkText}>Lyra</Text>
+                <Text style={styles.navLinkText}>Jarvis</Text>
               </TouchableOpacity>
             </Link>
             <Link href={"/events"} asChild>
