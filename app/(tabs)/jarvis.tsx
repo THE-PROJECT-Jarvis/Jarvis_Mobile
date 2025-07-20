@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import {
   Alert,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -37,12 +38,9 @@ const Jarvis = () => {
   } = useChatStore();
   const [started, setStarted] = useState(false);
   const [replyTo, setReplyTo] = useState<IChat | null>(null);
-  // const [messages, setMessages] = useState<IChat[]>([
-  //   { role: "assistant", content: "Hi, I’m Lyra." },
-  // ]);
   const [text, setText] = useState("");
-  // const [streamingResponse, setStreamingResponse] = useState("");
   const streamingResponseRef = useRef("");
+
   const scrollRef = useRef<ScrollView>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
   const [speaking, setSpeaking] = useState<boolean>(false);
@@ -253,6 +251,21 @@ const Jarvis = () => {
                 msg.role === "user" ? styles.userBubble : styles.jarvisBubble,
               ]}
             >
+              <View
+                style={[
+                  styles.avatar,
+                  msg.role === "user" ? { right: -15 } : { left: -15 },
+                ]}
+              >
+                {msg.role === "user" ? (
+                  <Icon source="account-circle" size={24} color={"#fff"} />
+                ) : (
+                  <Image
+                    source={require("../../assets/images/jarvisIcon.png")}
+                    style={{ width: 29, height: 29, borderRadius: 12 }}
+                  />
+                )}
+              </View>
               <Markdown
                 style={{
                   body: {
@@ -412,7 +425,20 @@ const styles = StyleSheet.create({
     maxWidth: "85%",
     padding: 10,
     borderRadius: 12,
-    marginBottom: 10,
+    marginBottom: 8,
+    marginTop: 8,
+    position: "relative",
+  },
+  avatar: {
+    position: "absolute",
+    height: 30,
+    width: 30,
+    bottom: -15,
+    backgroundColor: "black",
+    borderRadius: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   jarvisBubble: {
     backgroundColor: "rgba(12, 135, 196, 0.59)",
