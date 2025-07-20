@@ -8,35 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		16979A92F17ECA03002FB658 /* libPods-Jarvis Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E487FF5026C2C52A1E94A969 /* libPods-Jarvis Dev.a */; };
+		13DBD4736E5F38EE80BE7A24 /* libPods-Jarvis Dev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27CAEC0ABABB1A24607C8DEB /* libPods-Jarvis Dev.a */; };
 		1859FDA92DF98013006EAF5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 		1859FDAE2DF98013006EAF5B /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		1859FDAF2DF98013006EAF5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		1859FDB02DF98013006EAF5B /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		1859FDB12DF98013006EAF5B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AC8B6A309CBF75C2F9F54055 /* PrivacyInfo.xcprivacy */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		47D4E1E1E1E5DEE3B8D14F11 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0B811F4C947B75D7329811 /* ExpoModulesProvider.swift */; };
 		BA35106B20F349E1916542C8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = AC8B6A309CBF75C2F9F54055 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		F68E2B05F90A0DBE2ABB39D4 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C9F3F71A4495AD8584DA50 /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		13B07F961A680F5B00A75B9A /* JarvisMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JarvisMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = JarvisMobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = JarvisMobile/Info.plist; sourceTree = "<group>"; };
-		13EC53FED45C4DE02DFE720B /* Pods-Jarvis Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jarvis Dev.release.xcconfig"; path = "Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev.release.xcconfig"; sourceTree = "<group>"; };
 		1859FDB82DF98013006EAF5B /* Jarvis Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jarvis Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1859FDB92DF98014006EAF5B /* JarvisMobile copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "JarvisMobile copy-Info.plist"; path = "/Users/apple/THE_PROJECT_Jarvis/Jarvis_Mobile/ios/JarvisMobile copy-Info.plist"; sourceTree = "<absolute>"; };
-		506BBB20A4EF741D29E2C382 /* Pods-Jarvis Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jarvis Dev.debug.xcconfig"; path = "Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev.debug.xcconfig"; sourceTree = "<group>"; };
-		6E0B811F4C947B75D7329811 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Jarvis Dev/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		27CAEC0ABABB1A24607C8DEB /* libPods-Jarvis Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jarvis Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2C9F3F71A4495AD8584DA50 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Jarvis Dev/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = JarvisMobile/SplashScreen.storyboard; sourceTree = "<group>"; };
 		AC8B6A309CBF75C2F9F54055 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = JarvisMobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E487FF5026C2C52A1E94A969 /* libPods-Jarvis Dev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Jarvis Dev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3CED9F0BBFFB32941CE8FB5 /* Pods-Jarvis Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jarvis Dev.release.xcconfig"; path = "Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = JarvisMobile/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* JarvisMobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "JarvisMobile-Bridging-Header.h"; path = "JarvisMobile/JarvisMobile-Bridging-Header.h"; sourceTree = "<group>"; };
+		F8D2CBB52319908E50570282 /* Pods-Jarvis Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jarvis Dev.debug.xcconfig"; path = "Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16979A92F17ECA03002FB658 /* libPods-Jarvis Dev.a in Frameworks */,
+				13DBD4736E5F38EE80BE7A24 /* libPods-Jarvis Dev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +75,7 @@
 		15CD0993F379D65C9821F7D6 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				68ADCB004B6591B69DC6839A /* Jarvis Dev */,
+				8EBC8A8B24F7BB233F962DFB /* Jarvis Dev */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -84,17 +84,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				E487FF5026C2C52A1E94A969 /* libPods-Jarvis Dev.a */,
+				27CAEC0ABABB1A24607C8DEB /* libPods-Jarvis Dev.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		68ADCB004B6591B69DC6839A /* Jarvis Dev */ = {
-			isa = PBXGroup;
-			children = (
-				6E0B811F4C947B75D7329811 /* ExpoModulesProvider.swift */,
-			);
-			name = "Jarvis Dev";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -129,11 +121,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8EBC8A8B24F7BB233F962DFB /* Jarvis Dev */ = {
+			isa = PBXGroup;
+			children = (
+				A2C9F3F71A4495AD8584DA50 /* ExpoModulesProvider.swift */,
+			);
+			name = "Jarvis Dev";
+			sourceTree = "<group>";
+		};
 		98A9409315E59779CF17D124 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				506BBB20A4EF741D29E2C382 /* Pods-Jarvis Dev.debug.xcconfig */,
-				13EC53FED45C4DE02DFE720B /* Pods-Jarvis Dev.release.xcconfig */,
+				F8D2CBB52319908E50570282 /* Pods-Jarvis Dev.debug.xcconfig */,
+				E3CED9F0BBFFB32941CE8FB5 /* Pods-Jarvis Dev.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -173,14 +173,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1859FDB52DF98013006EAF5B /* Build configuration list for PBXNativeTarget "Jarvis Dev" */;
 			buildPhases = (
-				44F77FAA399ED5D6EF538DF3 /* [CP] Check Pods Manifest.lock */,
+				B367BF5EA52E9787117C9260 /* [CP] Check Pods Manifest.lock */,
 				1859FDA72DF98013006EAF5B /* [Expo] Configure project */,
 				1859FDA82DF98013006EAF5B /* Sources */,
 				1859FDAB2DF98013006EAF5B /* Frameworks */,
 				1859FDAD2DF98013006EAF5B /* Resources */,
 				1859FDB22DF98013006EAF5B /* Bundle React Native code and images */,
-				6625371CDC83D75C47598D50 /* [CP] Embed Pods Frameworks */,
-				F620E9B2CAEB1F486C202506 /* [CP] Copy Pods Resources */,
+				39F28378C0FF3CAB01CE856F /* [CP] Embed Pods Frameworks */,
+				72F05E060E83D9D70E2F46C4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -298,29 +298,7 @@
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 		};
-		44F77FAA399ED5D6EF538DF3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Jarvis Dev-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6625371CDC83D75C47598D50 /* [CP] Embed Pods Frameworks */ = {
+		39F28378C0FF3CAB01CE856F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -338,26 +316,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C7A581099F49A8A7CDCF0432 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Jarvis\\ Prod/expo-configure-project.sh\"\n";
-		};
-		F620E9B2CAEB1F486C202506 /* [CP] Copy Pods Resources */ = {
+		72F05E060E83D9D70E2F46C4 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,6 +360,47 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Jarvis Dev/Pods-Jarvis Dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B367BF5EA52E9787117C9260 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Jarvis Dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C7A581099F49A8A7CDCF0432 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-Jarvis\\ Prod/expo-configure-project.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -417,7 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1859FDA92DF98013006EAF5B /* AppDelegate.swift in Sources */,
-				47D4E1E1E1E5DEE3B8D14F11 /* ExpoModulesProvider.swift in Sources */,
+				F68E2B05F90A0DBE2ABB39D4 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,7 +494,7 @@
 		};
 		1859FDB62DF98013006EAF5B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 506BBB20A4EF741D29E2C382 /* Pods-Jarvis Dev.debug.xcconfig */;
+			baseConfigurationReference = F8D2CBB52319908E50570282 /* Pods-Jarvis Dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -532,7 +532,7 @@
 		};
 		1859FDB72DF98013006EAF5B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 13EC53FED45C4DE02DFE720B /* Pods-Jarvis Dev.release.xcconfig */;
+			baseConfigurationReference = E3CED9F0BBFFB32941CE8FB5 /* Pods-Jarvis Dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

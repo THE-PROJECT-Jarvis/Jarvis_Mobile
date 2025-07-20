@@ -65,6 +65,9 @@ const Jarvis = () => {
         }, 2000);
       }
     };
+    socket.off("/gptResponse");
+    socket.off("/toolCallResponse");
+    socket.off("/streamComplete");
 
     socket.on("/gptResponse", (response) => {
       appendStreamingResponse(response);
@@ -80,11 +83,7 @@ const Jarvis = () => {
       console.log("response :", streamingResponse);
       if (reply) {
         addMessage({ role: "assistant", content: reply });
-        if (isAtBottom) {
-          setTimeout(() => {
-            scrollRef.current?.scrollToEnd({ animated: true });
-          }, 100);
-        }
+        scrollRef.current?.scrollToEnd({ animated: true });
       }
       setStreamingResponse("");
     });
@@ -149,12 +148,11 @@ const Jarvis = () => {
   const handleSend = async () => {
     if (text.trim()) {
       addMessage({ role: "user", content: text });
-      if (isAtBottom) {
-        setTimeout(() => {
-          scrollRef.current?.scrollToEnd({ animated: true });
-        }, 100);
-      }
-      const prompt = [...messages, { role: "user", content: text }];
+      scrollRef.current?.scrollToEnd({ animated: true });
+
+      const prompt: IChat[] = replyTo
+        ? [replyTo, { role: "user", content: text }]
+        : [...messages, { role: "user", content: text }];
       if (isAtBottom) {
         setTimeout(() => {
           scrollRef.current?.scrollToEnd({ animated: true });
