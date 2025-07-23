@@ -266,51 +266,63 @@ const Jarvis = () => {
                   />
                 )}
               </View>
-              <Markdown
-                style={{
-                  body: {
-                    color: "white",
+              {msg.role === "user" ? (
+                <Text
+                  style={{
+                    color: "#5D5A8C",
                     fontSize: 16,
                     paddingHorizontal: 10,
-                  },
-                  heading1: {
-                    color: "#13b3e9",
-                    fontSize: 22,
-                    fontWeight: "bold",
-                    marginBottom: 10,
-                  },
-                  heading2: {
-                    color: "#13b3e9",
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    marginBottom: 8,
-                  },
-                  heading3: {
-                    color: "#13b3e9",
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    marginBottom: 8,
-                  },
-                  paragraph: { color: "white", marginBottom: 8 },
-                  strong: { fontWeight: "bold", color: "#ffffff" },
-                  list_item: { color: "#ffffff" },
-                  bullet_list: { marginBottom: 8 },
-                  code_inline: {
-                    backgroundColor: "#222",
-                    color: "#13b3e9",
-                    padding: 4,
-                    borderRadius: 4,
-                  },
-                  blockquote: {
-                    backgroundColor: "#1e1e1e",
-                    padding: 10,
-                    borderLeftWidth: 4,
-                    borderLeftColor: "#13b3e9",
-                  },
-                }}
-              >
-                {typeof msg.content === "string" ? msg.content : ""}
-              </Markdown>
+                  }}
+                >
+                  {msg.content}
+                </Text>
+              ) : (
+                <Markdown
+                  style={{
+                    body: {
+                      color: "white",
+                      fontSize: 16,
+                      paddingHorizontal: 10,
+                    },
+                    heading1: {
+                      color: "#13b3e9",
+                      fontSize: 22,
+                      fontWeight: "bold",
+                      marginBottom: 10,
+                    },
+                    heading2: {
+                      color: "#13b3e9",
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginBottom: 8,
+                    },
+                    heading3: {
+                      color: "#13b3e9",
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginBottom: 8,
+                    },
+                    paragraph: { color: "white", marginBottom: 8 },
+                    strong: { fontWeight: "bold", color: "#ffffff" },
+                    list_item: { color: "#ffffff" },
+                    bullet_list: { marginBottom: 8 },
+                    code_inline: {
+                      backgroundColor: "#222",
+                      color: "#13b3e9",
+                      padding: 4,
+                      borderRadius: 4,
+                    },
+                    blockquote: {
+                      backgroundColor: "#1e1e1e",
+                      padding: 10,
+                      borderLeftWidth: 4,
+                      borderLeftColor: "#13b3e9",
+                    },
+                  }}
+                >
+                  {typeof msg.content === "string" ? msg.content : ""}
+                </Markdown>
+              )}
             </Pressable>
           );
         })}
@@ -363,7 +375,7 @@ const Jarvis = () => {
               placeholder="Type or say what’s on your mind"
               value={text}
               onChangeText={setText}
-              placeholderTextColor={"#13b3e9"}
+              placeholderTextColor={"#e6e6e6"}
               multiline
               scrollEnabled
               textAlignVertical="center"
@@ -441,15 +453,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   jarvisBubble: {
-    backgroundColor: "rgba(12, 135, 196, 0.59)",
+    backgroundColor: "#7674a5",
     alignSelf: "flex-start",
   },
   userBubble: {
-    backgroundColor: "#093957",
+    backgroundColor: "#e6e6e6",
     alignSelf: "flex-end",
     marginBottom: 20,
     marginTop: 20,
     //   1.	#04263c – Deep navy blue (great for background)
+
+    // light purple : #7674a5
+    // dark purple :
+
+    // #48466d
+    // Dusty Indigo
+    // #ffffff
+    // Pure White
+    // #5d5a8c
+    // Slate Purple
+    // #33324e
+    // Charcoal Blue
+    // #e6e6e6
+    // Light Grey
+    // #7674a5
+    // Lavender Grey
+
     // 2.	#0e4979 – Cool electric blue
     // 3.	#13b3e9 – Bright cyan (accent/highlight)
     // 4.	#093957 – Muted blue-gray
@@ -485,7 +514,7 @@ const styles = StyleSheet.create({
   },
   sendButton: {},
   micButton: {
-    backgroundColor: "#13b3e9",
+    backgroundColor: "#33324e",
     padding: 10,
     borderRadius: 20,
   },

@@ -283,7 +283,7 @@ PODS:
     - ExpoModulesCore
   - ExpoHaptics (14.1.4):
     - ExpoModulesCore
-  - ExpoHead (5.0.7):
+  - ExpoHead (5.1.4):
     - ExpoModulesCore
   - ExpoImage (2.1.7):
     - ExpoModulesCore
@@ -2801,7 +2801,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: c36eb8155eb2381c83dda7dc210e3eec332368b6
   ExpoFont: abbb91a911eb961652c2b0a22eef801860425ed6
   ExpoHaptics: 0ff6e0d83cd891178a306e548da1450249d54500
-  ExpoHead: af044f3e9c99e7d8d21bf653b4c2f2ef53a7f082
+  ExpoHead: a7b66cbaeeb51f4a85338d335a0f5467e29a2c90
   ExpoImage: e7738bebc58cee17e93fa161f2444f9c343996f5
   ExpoKeepAwake: bf0811570c8da182bfb879169437d4de298376e7
   ExpoLinking: b85ff4eafeae6fc638c6cace60007ae521af0ef4
@@ -2901,6 +2901,6 @@ SPEC CHECKSUMS:
   TextToSpeech: 89b239221ec378d213af422d14789a729705360b
   Yoga: c758bfb934100bb4bf9cbaccb52557cee35e8bdf
 
-PODFILE CHECKSUM: a5f53840f8fb595f9fc0b69699ab8cc632cd20de
+PODFILE CHECKSUM: 667773d6c581f5373c5d61d30e4938a7b12d3282
 
 COCOAPODS: 1.16.2

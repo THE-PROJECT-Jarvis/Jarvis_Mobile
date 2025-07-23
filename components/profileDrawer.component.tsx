@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   drawerContainer: {
     flex: 1,
-    backgroundColor: "#093957",
+    backgroundColor: "#7674a5",
     height: "100%",
     width: "75%",
     paddingHorizontal: 25,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   logoutButton: {
-    backgroundColor: "#c62828",
+    backgroundColor: "#48466d",
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 30,

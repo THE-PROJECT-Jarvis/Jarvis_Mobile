@@ -151,7 +151,7 @@ const Section = ({ title, events }: { title: string; events: any[] }) => (
         title={event.title}
         titleStyle={{ color: "white", fontWeight: "bold" }}
         style={{
-          backgroundColor: "rgba(12, 135, 196, 0.33)",
+          backgroundColor: "rgba(118, 116, 165, 0.23)",
           marginBottom: 8,
           borderRadius: 6,
         }}
@@ -183,7 +183,7 @@ export default Events;
 const styles = StyleSheet.create({
   shimmerContainer: {
     overflow: "hidden",
-    backgroundColor: "rgba(12, 135, 196, 0.33)",
+    backgroundColor: "rgba(118, 116, 165, 0.23)",
     marginBottom: 8,
     borderRadius: 6,
     height: 80,

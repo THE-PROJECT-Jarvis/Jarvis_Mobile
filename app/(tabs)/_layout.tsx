@@ -2,6 +2,7 @@ import { ProfileDrawer } from "@/components";
 import { Link, Slot } from "expo-router";
 import React, { useState } from "react";
 import {
+  Image,
   ImageBackground,
   StatusBar,
   StyleSheet,
@@ -26,7 +27,7 @@ export default function TabLayout() {
         height: "100%",
         backgroundColor: "#111",
       }}
-      imageStyle={{ opacity: 0.3 }}
+      imageStyle={{ opacity: 0.1 }}
     >
       <StatusBar
         backgroundColor="transparent" // or any hex code like "#111111"
@@ -41,12 +42,19 @@ export default function TabLayout() {
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>{"NextU"}</Text>
+            <View style={styles.iconContainer}>
+              <Image
+                source={require("../../assets/images/NextULogo.png")}
+                style={{ width: 24, height: 24, marginRight: 10 }}
+              />
+              <Text style={styles.headerText}>{"NextU"}</Text>
+            </View>
+
             <TouchableOpacity onPress={() => setProfileDrawer(!profileDrawer)}>
               <Icon
                 source="account-circle"
                 size={24}
-                color={profileDrawer ? "rgba(12, 135, 196, 0.59)" : "#fff"}
+                color={profileDrawer ? "#33324e" : "#fff"}
               />
             </TouchableOpacity>
           </View>
@@ -68,9 +76,7 @@ export default function TabLayout() {
                 <Icon
                   source="brain"
                   size={24}
-                  color={
-                    activeTab === "jarvis" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
-                  }
+                  color={activeTab === "jarvis" ? "#33324e" : "#aaa"}
                 />
                 <Text style={styles.navLinkText}>Jarvis</Text>
               </TouchableOpacity>
@@ -83,9 +89,7 @@ export default function TabLayout() {
                 <Icon
                   source="calendar-star"
                   size={24}
-                  color={
-                    activeTab === "events" ? "rgba(12, 135, 196, 0.59)" : "#aaa"
-                  }
+                  color={activeTab === "events" ? "#33324e" : "#aaa"}
                 />
                 <Text style={styles.navLinkText}>Events</Text>
               </TouchableOpacity>
@@ -131,6 +135,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   tabBar: {
     flexDirection: "row",
@@ -149,5 +156,9 @@ const styles = StyleSheet.create({
 
   navLinkText: {
     color: "white",
+  },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
